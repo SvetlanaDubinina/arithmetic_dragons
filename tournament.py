@@ -14,21 +14,40 @@ def annoying_input_int(message =''):
 
 
 def game_tournament(hero, dragon_list):
-    for dragon in dragon_list:
-        print('Вышел', dragon._color, 'дракон!')
-        while dragon.is_alive() and hero.is_alive():
-            print('Вопрос:', dragon.question())
-            answer = annoying_input_int('Ответ:')
+    for enemy in dragon_list:
+        if isinstance(enemy,Dragon):
+            print('Вышел', enemy._color, 'дракон!')
+            while enemy.is_alive() and hero.is_alive():
+                print('Вопрос:', enemy.question())
+                answer = annoying_input_int('Ответ:')
 
-            if dragon.check_answer(answer):
-                hero.attack(dragon)
-                print('Верно! \n** дракон кричит от боли **')
-            else:
-                dragon.attack(hero)
-                print('Ошибка! \n** вам нанесён удар... **')
-        if dragon.is_alive():
-            break
-        print('Дракон', dragon._color, 'повержен!\n')
+                if enemy.check_answer(answer):
+                    hero.attack(enemy)
+                    print('Верно! \n** дракон кричит от боли **')
+                else:
+                    enemy.attack(hero)
+                    print('Ошибка! \n** вам нанесён удар... **')
+            if enemy.is_alive():
+                break
+            print('Дракон', enemy._color, 'повержен!\n')
+        elif isinstance(enemy,troll):
+            print('Вышел',enemy._color,'Тролль!')
+            while enemy.is_alive() and hero.is_alive():
+                print('Вопрос:', enemy.question())
+                answer = annoying_input_int('Ответ:')
+
+                if enemy.check_answer(answer):
+                    hero.attack(enemy)
+                    print('Верно! \n** тролль кричит от боли **')
+                else:
+                    enemy.attack(hero)
+                    print('Ошибка! \n** вам нанесён удар... **')
+            if enemy.is_alive():
+                break
+            print('Тролль', enemy._color, 'повержен!\n')
+        else:
+            print('VAS UKUSILI')
+            hero._health-=10
 
     if hero.is_alive():
         print('Поздравляем! Вы победили!')
@@ -46,7 +65,7 @@ def start_game():
         dragon_number = 3
         dragon_list = generate_dragon_list(dragon_number)
         assert(len(dragon_list) == 3)
-        print('У Вас на пути', dragon_number, 'драконов!')
+        print('У Вас на пути', dragon_number, 'монстров!')
         game_tournament(hero, dragon_list)
 
     except EOFError:
